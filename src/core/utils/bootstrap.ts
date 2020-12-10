@@ -27,17 +27,21 @@ const registerComponents = async (context: RequireContext) => {
 /**
  * Bootstrap app
  */
-export const createApp = async (config: {
+export const createApp = async (config?: {
   layout: () => Promise<{ default: Component }>
-  options: Record<string, unknown>
+  options?: Record<string, unknown>
+  mount?: boolean
 }): Promise<Vue> => {
-  await registerComponents(require.context('@/core/components', true, /\.vue$/, 'lazy'))
+  if (config === undefined) throw new Error('App config not available')
+
+  await registerComponents(require('@/core/utils/component-loader').components())
   const template = await config.layout()
 
-  return new Vue({
+  const instance = new Vue({
     ...config.options,
     render: (h) => h(template.default),
-  }).$mount('#app')
+  })
+  return config.mount ? instance.$mount('#app') : instance
 }
 
 /**
