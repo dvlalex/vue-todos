@@ -1,5 +1,5 @@
 <script lang="ts">
-import { createComponent } from '@/core/utils/bootstrap'
+import { createComponent } from '@/core'
 
 export default createComponent({
   mounted() {

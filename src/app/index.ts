@@ -1,4 +1,4 @@
-import { createApp } from '@/core/utils/bootstrap'
+import { createApp } from '@/core'
 
 /**
  * App entry-point

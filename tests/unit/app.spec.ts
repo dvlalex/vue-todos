@@ -1,13 +1,13 @@
-import { createApp, createComponent } from '@/core/utils/bootstrap'
 import Vue from 'vue'
+import { createApp } from '@/core'
 
-describe('App entry-point', () => {
+describe('core/utils/app', () => {
   test('should throw error', async () => {
     await expect(createApp()).rejects.toThrow('App config not available')
   })
 
   test('should bootstrap a app', async () => {
-    jest.mock('@/core/utils/component-loader', () => ({
+    jest.mock('@/core/components/_loader', () => ({
       components: () => ({ keys: () => [] }),
     }))
 
@@ -16,11 +16,5 @@ describe('App entry-point', () => {
 
     expect(app).toBeInstanceOf(Vue)
     expect(mockLayout.mock.calls.length).toBe(1)
-  })
-
-  test('should bootstrap a component', async () => {
-    const app = await createComponent({})
-
-    expect(app.name).toEqual('VueComponent')
   })
 })
