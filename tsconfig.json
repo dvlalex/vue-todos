@@ -10,7 +10,15 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
+
     "baseUrl": ".",
+    "removeComments": true,
+    "noEmitOnError": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+
     "types": [
       "webpack-env",
       "jest"
@@ -27,6 +35,7 @@
       "scripthost"
     ]
   },
+
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx",
