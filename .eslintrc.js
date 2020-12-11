@@ -35,6 +35,7 @@ module.exports = {
       rules: {
         'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
         '@typescript-eslint/consistent-type-assertions': 'off',
+        '@typescript-eslint/interface-name-prefix': 'off',
       },
     },
   ],

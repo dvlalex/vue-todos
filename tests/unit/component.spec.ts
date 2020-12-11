@@ -2,14 +2,14 @@ import { createComponent, registerComponents } from '@/core'
 
 describe('core/utils/component', () => {
   test('should register components', async () => {
-    const mockContext = jest.fn().mockReturnValue({ keys: () => [] })
-
+    const mockFn = Object.assign(jest.fn().mockReturnValue({ default: undefined }), { keys: () => ['TestComponent'] })
     jest.mock('@/core/components/_loader', () => ({
-      components: mockContext,
+      components: mockFn,
     }))
 
-    await registerComponents(require('@/core/components/_loader').components())
-    expect(mockContext.mock.calls.length).toBe(1)
+    await registerComponents(require('@/core/components/_loader').components)
+    expect(mockFn).toBeCalledWith('TestComponent')
+    expect(mockFn.mock.calls.length).toBe(1)
   })
 
   test('should bootstrap a component', async () => {
