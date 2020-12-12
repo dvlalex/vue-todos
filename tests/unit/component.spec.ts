@@ -1,4 +1,4 @@
-import { createComponent, registerComponents } from '@/core'
+import { registerComponents } from '@/core'
 
 describe('core/utils/component', () => {
   test('should register components', async () => {
@@ -10,11 +10,5 @@ describe('core/utils/component', () => {
     await registerComponents(require('@/core/components/_loader').components)
     expect(mockFn).toBeCalledWith('TestComponent')
     expect(mockFn.mock.calls.length).toBe(1)
-  })
-
-  test('should bootstrap a component', async () => {
-    const app = await createComponent({})
-
-    expect(app.name).toEqual('VueComponent')
   })
 })

@@ -12,7 +12,7 @@ const actionContext = (
 ): ActionContext<TasksState, unknown> => ({
   commit,
   dispatch,
-  state: { Tasks: new Map() },
+  state: { Tasks: [] },
   getters: {},
   rootState: {},
   rootGetters: {},
@@ -40,14 +40,14 @@ describe('/app/store/tasks', () => {
     }))
 
     tasks = await import('@/app/store/tasks').then((i) => i.tasks)
-    state = { Tasks: new Map() }
+    state = { Tasks: [] }
     moduleStore = new Vuex.Store({ modules: { tasks } })
   })
 
   test('getters ~ GET_TASKS', () => {
     const getters = tasks.getters?.[TaskActions.GET_TASKS]
     if (getters) {
-      expect(getters({ Tasks: new Map() }, null, null, null).size).toEqual(0)
+      expect(getters({ Tasks: [] }, null, null, null)('card-id').length).toEqual(0)
     }
   })
 
@@ -122,8 +122,9 @@ describe('/app/store/tasks', () => {
         new Task<string>({ title: 'Card 3', completed: false }, 'card-id'),
       ])
 
-      expect(state.Tasks.size).toEqual(4)
-      expect(Array.from(state.Tasks.keys())[2]).toEqual(task.id)
+      expect(state.Tasks.length).toEqual(4)
+      expect(state.Tasks[2].id).toEqual(task.id)
+      // expect(Array.from(state.Tasks.keys())[2]).toEqual(task.id)
     }
   })
 
@@ -134,8 +135,9 @@ describe('/app/store/tasks', () => {
       const newTask = new Task<string>({ title: 'Card 5', completed: false }, 'card-id')
       createTask(state, newTask)
 
-      expect(state.Tasks.size).toEqual(5)
-      expect(Array.from(state.Tasks.keys())[4]).toEqual(newTask.id)
+      expect(state.Tasks.length).toEqual(5)
+      expect(state.Tasks[4].id).toEqual(newTask.id)
+      // expect(Array.from(state.Tasks.keys())[4]).toEqual(newTask.id)
     }
   })
 
@@ -146,7 +148,7 @@ describe('/app/store/tasks', () => {
       const updatedTask = { ...task, title: 'New special title' }
       updateTask(state, updatedTask)
 
-      expect(state.Tasks.get(task.id)).toEqual(updatedTask)
+      expect(state.Tasks.find((t) => t.id === task.id)).toEqual(updatedTask)
     }
   })
 
@@ -156,7 +158,7 @@ describe('/app/store/tasks', () => {
     if (deleteTask) {
       deleteTask(state, task.id)
 
-      expect(state.Tasks.size).toEqual(4)
+      expect(state.Tasks.length).toEqual(4)
       expect(Array.from(state.Tasks.keys())[2]).not.toEqual(task.id)
     }
   })

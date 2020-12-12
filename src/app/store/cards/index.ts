@@ -10,7 +10,7 @@ import { useMutations } from '@/app/store/cards/mutations'
 export const cards: Module<CardsState, unknown> = {
   namespaced: true,
   state: {
-    Cards: new Map(),
+    Cards: [],
   },
 
   actions: useActions(),

@@ -4,7 +4,7 @@ import { ITask } from '@/core/types'
  * Tasks state accessor
  */
 export type TasksState = {
-  Tasks: Map<string, ITask<string>>
+  Tasks: Array<ITask<string>>
 }
 
 /**

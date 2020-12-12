@@ -1,7 +1,12 @@
 <script lang="ts">
-import { createComponent } from '@/core'
+import Vue from 'vue'
+import CardsList from '@/app/components/CardsList.vue'
 
-export default createComponent({
+export default Vue.extend({
+  components: {
+    CardsList,
+  },
+
   mounted() {
     const placeholder = document.getElementById('loading-app')
     if (placeholder !== null) {
@@ -15,8 +20,18 @@ export default createComponent({
 </script>
 
 <template lang="pug">
-  .wrapper
-    p Index
+  div
+    header
+      h1 TODOs
+    main
+      cards-list
+        template(v-slot:no-results="{ createCard }")
+          p
+          | No cards available just yet.
+          |
+          a(@click.prevent="createCard" href="#create-card" title="Create Card") Create one
+    footer
+      p TODOs app &copy; 2020 ~ #[a(href="#") source code]
 </template>
 
 <style lang="sass">

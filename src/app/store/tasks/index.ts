@@ -10,7 +10,7 @@ import { useMutations } from '@/app/store/tasks/mutations'
 export const tasks: Module<TasksState, unknown> = {
   namespaced: true,
   state: {
-    Tasks: new Map(),
+    Tasks: [],
   },
 
   actions: useActions(),

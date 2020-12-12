@@ -12,7 +12,7 @@ const actionContext = (
 ): ActionContext<CardsState, unknown> => ({
   commit,
   dispatch,
-  state: { Cards: new Map() },
+  state: { Cards: [] },
   getters: {},
   rootState: {},
   rootGetters: {},
@@ -40,14 +40,14 @@ describe('/app/store/cards', () => {
     }))
 
     cards = await import('@/app/store/cards').then((i) => i.cards)
-    state = { Cards: new Map() }
+    state = { Cards: [] }
     moduleStore = new Vuex.Store({ modules: { cards } })
   })
 
   test('getters ~ GET_CARDS', () => {
     const getters = cards.getters?.[CardActions.GET_CARDS]
     if (getters) {
-      expect(getters({ Cards: new Map() }, null, null, null).size).toEqual(0)
+      expect(getters({ Cards: [] }, null, null, null).length).toEqual(0)
     }
   })
 
@@ -125,8 +125,9 @@ describe('/app/store/cards', () => {
         new Card<string>({ title: 'Card 3' }),
       ])
 
-      expect(state.Cards.size).toEqual(4)
-      expect(Array.from(state.Cards.keys())[2]).toEqual(card.id)
+      expect(state.Cards.length).toEqual(4)
+      expect(state.Cards[2].id).toEqual(card.id)
+      // expect(Array.from(state.Cards.keys())[2]).toEqual(card.id)
     }
   })
 
@@ -137,8 +138,9 @@ describe('/app/store/cards', () => {
       const newCard = new Card<string>({ title: 'Card 5' })
       createCard(state, newCard)
 
-      expect(state.Cards.size).toEqual(5)
-      expect(Array.from(state.Cards.keys())[4]).toEqual(newCard.id)
+      expect(state.Cards.length).toEqual(5)
+      expect(state.Cards[4].id).toEqual(newCard.id)
+      // expect(Array.from(state.Cards.keys())[4]).toEqual(newCard.id)
     }
   })
 
@@ -149,7 +151,7 @@ describe('/app/store/cards', () => {
       const updatedCard = { ...card, title: 'New special title' }
       updateCard(state, updatedCard)
 
-      expect(state.Cards.get(card.id)).toEqual(updatedCard)
+      expect(state.Cards.find((c) => c.id === card.id)).toEqual(updatedCard)
     }
   })
 
@@ -159,7 +161,7 @@ describe('/app/store/cards', () => {
     if (deleteCard) {
       deleteCard(state, card.id)
 
-      expect(state.Cards.size).toEqual(4)
+      expect(state.Cards.length).toEqual(4)
       expect(Array.from(state.Cards.keys())[2]).not.toEqual(card.id)
     }
   })

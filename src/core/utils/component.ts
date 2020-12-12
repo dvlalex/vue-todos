@@ -1,4 +1,4 @@
-import Vue, { Component, ComponentOptions } from 'vue'
+import Vue from 'vue'
 import RequireContext = __WebpackModuleApi.RequireContext
 
 /**
@@ -13,12 +13,4 @@ export const registerComponents = async (context: RequireContext) => {
         Vue.component(`C${file.replace(/^\.\//, '').replace(/\.\w+$/, '')}`, (await context(file)).default)
       )
   )
-}
-
-/**
- * Bootstrap component
- * @param options
- */
-export const createComponent = (options: ComponentOptions<Vue>): Component => {
-  return Vue.extend(options)
 }
