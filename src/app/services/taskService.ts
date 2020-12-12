@@ -1,13 +1,17 @@
-import { TaskInput, ITask, Service } from '@/core/types'
+import { TaskInput, ITask, ITaskService } from '@/core/types'
 import { Task } from '@/app/models/task'
 
 /**
  * Tasks service layer
  */
-export class TaskService<T extends string, U extends ITask<T>> implements Service<T, U> {
-  private readonly _tasks: Array<U>
+export class TaskService<T extends string> implements ITaskService<T> {
+  private readonly _tasks: Array<ITask<T>>
 
-  constructor(seed?: Array<U>) {
+  static get Name(): string {
+    return 'TaskService'
+  }
+
+  constructor(seed?: Array<ITask<T>>) {
     this._tasks = seed || []
   }
 
@@ -20,9 +24,8 @@ export class TaskService<T extends string, U extends ITask<T>> implements Servic
    * @param input
    * @param cardId
    */
-  create(input: TaskInput<T>, cardId?: T): U {
-    if (cardId === undefined) throw new Error('Card id not specified')
-    const card = <U>new Task(input, cardId)
+  create(input: TaskInput<T>, cardId: T): ITask<T> {
+    const card = <ITask<T>>new Task(input, cardId)
     this._tasks.push(card)
     return card
   }
@@ -41,7 +44,7 @@ export class TaskService<T extends string, U extends ITask<T>> implements Servic
   /**
    * Retrieve all tasks by card id
    */
-  getAll(cardId?: T): Array<U> {
+  getAll(cardId?: T): Array<ITask<T>> {
     if (cardId === undefined) throw new Error('Card id not specified')
     return this._tasks.filter((t) => t.card === cardId)
   }
@@ -50,7 +53,7 @@ export class TaskService<T extends string, U extends ITask<T>> implements Servic
    * Retrieve task by id
    * @param id
    */
-  getById(id: T): U | undefined {
+  getById(id: T): ITask<T> | undefined {
     return this._tasks.find((t) => t.id === id)
   }
 
@@ -59,10 +62,10 @@ export class TaskService<T extends string, U extends ITask<T>> implements Servic
    * @param id
    * @param input
    */
-  update(id: T, input: TaskInput<T>): U | undefined {
+  update(id: T, input: TaskInput<T>): ITask<T> | undefined {
     const task = this.getById(id)
     if (!task) return undefined
 
-    return <U>task.update(input)
+    return task.update(input)
   }
 }

@@ -1,4 +1,4 @@
-import { ICard, ITask, Service, TaskInput } from '@/core/types'
+import { ICard, ITask, ITaskService, TaskInput } from '@/core/types'
 import { Card } from '@/app/models/card'
 import { Task } from '@/app/models/task'
 import { TaskService } from '@/app/services/taskService'
@@ -9,7 +9,7 @@ describe('app/models/task', <T extends string>() => {
   let input: TaskInput<T>
 
   beforeAll(() => {
-    input = { title: 'Test Task' }
+    input = { title: 'Test Task', completed: false }
     card = new Card<T>({ title: 'Card Test' })
     task = new Task<T>(input, card.id)
   })
@@ -28,12 +28,19 @@ describe('app/models/task', <T extends string>() => {
 })
 
 describe('app/services/task', <T extends string>() => {
-  let service: Service<T, ITask<T>>
+  let service: ITaskService<T>
   let card: ICard<T>
   let task: ITask<T>
 
   beforeAll(() => {
     card = new Card<T>({ title: 'Card Test' })
+  })
+
+  test('should return its name', () => {
+    const name = TaskService.Name
+
+    expect(typeof name).toBe('string')
+    expect(name).toEqual('TaskService')
   })
 
   test('should initiate service with empty seed', () => {
@@ -50,12 +57,6 @@ describe('app/services/task', <T extends string>() => {
     ])
 
     expect(service.Store.length).toEqual(3)
-  })
-
-  test('should throw an error', () => {
-    expect(() => {
-      service.create({ title: 'Special Title' })
-    }).toThrow('Card id not specified')
   })
 
   test('should create a new task', () => {

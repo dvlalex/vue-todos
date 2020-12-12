@@ -1,7 +1,7 @@
 import Vue from 'vue'
 export * from '@/core/utils/app'
 export * from '@/core/utils/component'
-// export * from '@/core/utils/store'
+export * from '@/core/utils/store'
 
 /**
  * Vue config

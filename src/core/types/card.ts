@@ -4,4 +4,4 @@ export interface ICard<T> {
   update: (input: CardInput<T>) => ICard<T>
 }
 
-export type CardInput<T> = Omit<ICard<T>, 'id' | 'update'>
+export type CardInput<T> = Partial<Omit<ICard<T>, 'id' | 'update'>>

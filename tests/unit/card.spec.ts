@@ -1,6 +1,6 @@
 import { Card } from '@/app/models/card'
 import { CardService } from '@/app/services/cardService'
-import { CardInput, ICard, Service } from '@/core/types'
+import { CardInput, ICard, ICardService } from '@/core/types'
 
 describe('app/models/card', <T extends string>() => {
   let card: ICard<T>
@@ -25,8 +25,15 @@ describe('app/models/card', <T extends string>() => {
 })
 
 describe('app/services/cards', <T extends string>() => {
-  let service: Service<T, ICard<T>>
+  let service: ICardService<T>
   let card: ICard<T>
+
+  test('should return its name', () => {
+    const name = CardService.Name
+
+    expect(typeof name).toBe('string')
+    expect(name).toEqual('CardService')
+  })
 
   test('should initiate service with empty seed', () => {
     const emptyService = new CardService()

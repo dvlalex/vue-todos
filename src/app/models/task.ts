@@ -8,6 +8,7 @@ export class Task<T> implements ITask<T> {
   id!: T
   card!: T
   title!: string
+  completed!: boolean
 
   constructor(input: TaskInput<T>, card: string) {
     Object.assign(this, input, { card, id: nanoid() })

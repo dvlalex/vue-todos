@@ -1,13 +1,17 @@
-import { CardInput, ICard, Service } from '@/core/types'
+import { CardInput, ICard, ICardService } from '@/core/types'
 import { Card } from '@/app/models/card'
 
 /**
  * Cards service layer
  */
-export class CardService<T extends string, U extends ICard<T>> implements Service<T, U> {
-  private readonly _cards: Array<U>
+export class CardService<T extends string> implements ICardService<T> {
+  private readonly _cards: Array<ICard<T>>
 
-  constructor(seed?: Array<U>) {
+  static get Name(): string {
+    return 'CardService'
+  }
+
+  constructor(seed?: Array<ICard<T>>) {
     this._cards = seed || []
   }
 
@@ -19,8 +23,8 @@ export class CardService<T extends string, U extends ICard<T>> implements Servic
    * Create & persist a new card
    * @param input
    */
-  create(input: CardInput<T>): U {
-    const card = <U>new Card(input)
+  create(input: CardInput<T>): ICard<T> {
+    const card = new Card(input)
     this._cards.push(card)
     return card
   }
@@ -39,7 +43,7 @@ export class CardService<T extends string, U extends ICard<T>> implements Servic
   /**
    * Retrieve all cards
    */
-  getAll(): Array<U> {
+  getAll(): Array<ICard<T>> {
     return this._cards
   }
 
@@ -47,7 +51,7 @@ export class CardService<T extends string, U extends ICard<T>> implements Servic
    * Retrieve card by id
    * @param id
    */
-  getById(id: T): U | undefined {
+  getById(id: T): ICard<T> | undefined {
     return this._cards.find((c) => c.id === id)
   }
 
@@ -56,10 +60,10 @@ export class CardService<T extends string, U extends ICard<T>> implements Servic
    * @param id
    * @param input
    */
-  update(id: T, input: CardInput<T>): U | undefined {
+  update(id: T, input: CardInput<T>): ICard<T> | undefined {
     const card = this.getById(id)
     if (!card) return undefined
 
-    return <U>card.update(input)
+    return card.update(input)
   }
 }
