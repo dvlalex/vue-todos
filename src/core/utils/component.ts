@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import RequireContext = __WebpackModuleApi.RequireContext
+import { capitalize } from '@/core/utils'
 
 /**
  * Register components
@@ -10,7 +11,7 @@ export const registerComponents = async (context: RequireContext) => {
     context
       .keys()
       .map(async (file) =>
-        Vue.component(`C${file.replace(/^\.\//, '').replace(/\.\w+$/, '')}`, (await context(file)).default)
+        Vue.component(`C${capitalize(file.replace(/^\.\//, '').replace(/\.\w+$/, ''))}`, (await context(file)).default)
       )
   )
 }

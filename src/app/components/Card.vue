@@ -42,6 +42,7 @@ export default Vue.extend({
 
 <template lang="pug">
   div
+    c-input
     | card {{ card.title }}
     | {{ card.id }}
     div
