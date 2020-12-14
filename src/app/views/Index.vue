@@ -3,15 +3,11 @@ import Vue from 'vue'
 import CardsList from '@/app/components/CardsList'
 import TasksList from '@/app/components/TasksList'
 
-import { mdiPencil } from '@mdi/js'
-
 export default Vue.extend({
   components: {
     CardsList,
     TasksList,
   },
-
-  data: () => ({ mdiPencil }),
 
   mounted() {
     const placeholder = document.getElementById('loading-app')

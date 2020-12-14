@@ -48,7 +48,7 @@ export default Vue.extend({
   div
     div(v-if="length > 0")
       card(v-for="(card, index) in cards" :key="index" :data="card" :focused="focusedCard === card.id")
-        template(v-slot:default)
+        template(v-slot:default="")
           slot(:cardId="card.id" name="tasks-list")
       a(@click.prevent="createCard" href="#new-card" title="New Card") New card
     slot(v-else :createCard="createCard" name="no-results")
