@@ -1,6 +1,6 @@
 import { ActionTree } from 'vuex'
 import { Factory } from '@/core/utils/factory'
-import { TaskInput, ITaskService } from '@/core/types'
+import { TaskInput, ITaskService, ITask } from '@/core/types'
 import { TaskService } from '@/app/services/taskService'
 import { TaskActions, TasksState } from '@/app/store/tasks/types'
 
@@ -11,11 +11,15 @@ export const useActions = <R>(): ActionTree<TasksState, R> => ({
     commit(TaskActions.GET_TASKS, tasks)
   },
 
-  [TaskActions.CREATE_TASK]: async ({ commit }, payload: { cardId: string; taskInput: TaskInput<string> }) => {
+  [TaskActions.CREATE_TASK]: async (
+    { commit },
+    payload: { cardId: string; taskInput: TaskInput<string> }
+  ): Promise<ITask<string>> => {
     const taskService = Factory.createInstance<ITaskService<string>>(TaskService)
     const task = taskService.create(payload.taskInput, payload.cardId)
 
     commit(TaskActions.CREATE_TASK, task)
+    return task
   },
 
   [TaskActions.DELETE_TASK]: async ({ commit }, taskId: string) => {

@@ -1,6 +1,6 @@
 import { ActionTree } from 'vuex'
 import { Factory } from '@/core/utils/factory'
-import { CardInput, ICardService } from '@/core/types'
+import { CardInput, ICard, ICardService } from '@/core/types'
 import { CardService } from '@/app/services/cardService'
 import { CardActions, CardsState } from '@/app/store/cards/types'
 import { TaskActions } from '@/app/store/tasks/types'
@@ -16,11 +16,12 @@ export const useActions = <R>(): ActionTree<CardsState, R> => ({
     })
   },
 
-  [CardActions.CREATE_CARD]: async ({ commit }, cardInput: CardInput<string>) => {
+  [CardActions.CREATE_CARD]: async ({ commit }, cardInput: CardInput<string>): Promise<ICard<string>> => {
     const cardService = Factory.createInstance<ICardService<string>>(CardService)
     const card = cardService.create(cardInput)
 
     commit(CardActions.CREATE_CARD, card)
+    return card
   },
 
   [CardActions.DELETE_CARD]: async ({ commit }, cardId: string) => {

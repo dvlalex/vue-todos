@@ -1,11 +1,17 @@
 <script lang="ts">
 import Vue from 'vue'
-import CardsList from '@/app/components/CardsList.vue'
+import CardsList from '@/app/components/CardsList'
+import TasksList from '@/app/components/TasksList'
+
+import { mdiPencil } from '@mdi/js'
 
 export default Vue.extend({
   components: {
     CardsList,
+    TasksList,
   },
+
+  data: () => ({ mdiPencil }),
 
   mounted() {
     const placeholder = document.getElementById('loading-app')
@@ -30,6 +36,13 @@ export default Vue.extend({
           | No cards available just yet.
           |
           a(@click.prevent="createCard" href="#create-card" title="Create Card") Create one
+        template(v-slot:tasks-list="{ cardId }")
+          tasks-list(:cardId="cardId")
+            template(v-slot:no-results="{ createTask }")
+              p
+              | No tasks available.
+              |
+              a(@click.prevent="createTask" href="#create-task" title="Create Task") Create one
     footer
       p TODOs app &copy; 2020 ~ #[a(href="#") source code]
 </template>
