@@ -25,31 +25,42 @@ export default Vue.extend({
     },
   },
 
-  created() {
-    this.$events.$on('card:focus', (cardId: string) => {
-      this.focusedCard = cardId
-    })
-  },
-
   methods: {
     ...mapActions('cards', {
       createCardInStore: CardActions.CREATE_CARD,
     }),
 
     async createCard() {
-      const newCard = await this.createCardInStore({ title: '' })
-      this.$events.$emit('card:focus', newCard.id)
+      const newCard = await this.createCardInStore({ title: 'New Card' })
+      this.focusedCard = newCard.id
     },
   },
 })
 </script>
 
 <template lang="pug">
-  div
-    div(v-if="length > 0")
-      card(v-for="(card, index) in cards" :key="index" :data="card" :focused="focusedCard === card.id")
-        template(v-slot:default="")
-          slot(:cardId="card.id" name="tasks-list")
-      a(@click.prevent="createCard" href="#new-card" title="New Card") New card
-    slot(v-else :createCard="createCard" name="no-results")
+  .cards-list
+    .cards-list__grid
+      template(v-if="length > 0")
+        card(v-for="(card, index) in cards" :key="index" :data="card" :focused="focusedCard === card.id")
+          template(v-slot:default="")
+            slot(:cardId="card.id" name="tasks-list")
+      slot(v-else :createCard="createCard" name="no-results")
+    a.cards-list__new-card.text-center(v-if="length > 0" @click.prevent="createCard" href="#new-card" title="New Card") New card
 </template>
+
+<style lang="sass" scoped>
+@use "~@/app/assets/sass/global"
+
+.cards-list__grid
+  display: grid
+  grid-template-columns: repeat(auto-fit, minmax(450px, 1fr))
+  gap: 1.5rem
+
+  @media only screen and (min-width: #{map-get(global.$viewports, 'lg')}px)
+    gap: 3rem
+
+.cards-list__new-card
+  display: block
+  margin-top: 2.5rem
+</style>

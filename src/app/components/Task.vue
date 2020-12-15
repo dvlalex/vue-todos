@@ -37,8 +37,23 @@ export default Vue.extend({
 </script>
 
 <template lang="pug">
-  div
-    c-input(:model="task.title" :focus="focused" @update:title="onUpdateTitle")
-    | {{ task.id }}
-    a(@click.prevent="removeTask(task.id)" href="#remove-task" title="Remove Task") Remove
+  .task.flex.justify-space-between
+    c-input.task__title(:model="task.title" :focus="focused" @update:title="onUpdateTitle")
+    a.task__remove(@click.prevent="removeTask(task.id)" href="#remove-task" title="Remove Task")
+      c-icon(:iconPath="$icons.trashcan")
 </template>
+
+<style lang="sass" scoped>
+.task
+  gap: 1rem
+  align-items: center
+
+  .task__title
+    flex: 1
+
+  .task__remove
+    color: rgb(var(--color-secondary))
+    transition: transform .2s ease-in
+    &:hover
+      transform: scale(1.1)
+</style>

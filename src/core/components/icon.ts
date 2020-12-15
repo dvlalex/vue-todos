@@ -2,11 +2,12 @@ import Vue, { VNode } from 'vue'
 
 export default Vue.extend({
   name: 'CIcon',
+  functional: true,
 
   props: {
     size: {
       type: Number,
-      default: 20,
+      default: 22,
     },
     iconPath: {
       type: String,
@@ -14,42 +15,40 @@ export default Vue.extend({
     },
   },
 
-  computed: {
-    classList() {
-      return {
-        'c-icon': true,
-      }
-    },
-  },
-
-  methods: {
-    getSvg(slotPath: VNode) {
+  render(h, context): VNode {
+    const genSvg = (slotPath: VNode, size: number) => {
       const ref = 'svg'
-      return this.$createElement(
+      return h(
         'svg',
         {
           attrs: {
-            'xmlns:xlink': 'http://www.w3.org/1999/xlink',
             xmlns: 'http://www.w3.org/2000/svg',
-            width: this.size,
-            height: this.size,
+            width: size,
+            height: size,
             viewBox: `0 0 24 24`,
             'aria-hidden': true,
           },
           style: {
-            fontSize: this.size,
-            width: this.size,
-            height: this.size,
+            fill: 'currentColor',
+            fontSize: size,
+            width: size,
+            height: size,
           },
           staticClass: `c-icon__${ref}`,
           ref,
         },
         [slotPath]
       )
-    },
-  },
+    }
 
-  render(h): VNode {
-    return h('span', { ref: 'icon', class: this.classList }, [this.getSvg(h('path', { attrs: { d: this.iconPath } }))])
+    return h(
+      'span',
+      {
+        class: {
+          'c-icon': true,
+        },
+      },
+      [genSvg(h('path', { attrs: { d: context.props.iconPath } }), context.props.size)]
+    )
   },
 })
