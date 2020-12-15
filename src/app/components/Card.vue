@@ -29,7 +29,7 @@ export default Vue.extend({
 
   created() {
     this.$events.$on(`tasksPercentage-${this.card.id}`, (value: number) => {
-      this.fillProgress = value
+      if (!isNaN(value)) this.fillProgress = value
     })
   },
 

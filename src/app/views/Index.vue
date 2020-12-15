@@ -38,7 +38,7 @@ export default Vue.extend({
                 |<br/>
                 a(@click.prevent="createTask" href="#create-task" title="Create Task") Create one
     footer
-      p.text-center TODOs app &copy; 2020 ~ #[a(href="#") source code]
+      p.text-center TODOs app &copy; 2020 ~ #[a(href="https://github.com/dvlalex/vue-todos", target="_blank") source code]
 </template>
 
 <style lang="sass">
