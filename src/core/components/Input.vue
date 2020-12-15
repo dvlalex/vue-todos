@@ -17,6 +17,11 @@ export default Vue.extend({
       type: Boolean,
       default: false,
     },
+
+    completed: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   data: () => ({
@@ -60,7 +65,7 @@ export default Vue.extend({
       h3(v-show="!hasFocus" :class="`${refClass}__placeholder`" @click="focusInput")
         | {{ model }}
     template(v-else)
-      p(v-show="!hasFocus" :class="`${refClass}__placeholder`" @click="focusInput")
+      p(v-show="!hasFocus" :class="[`${refClass}__placeholder`, {[`${refClass}__placeholder--completed`]: completed}]" @click="focusInput")
         | {{ model }}
     input(v-show="hasFocus" :ref="`${refClass}-field`" :class="`${refClass}__field`" type="text" :value="model" @keydown="onInputKeydown" @change="onInputChange" @blur="hasFocus = false")
 </template>
@@ -74,8 +79,26 @@ export default Vue.extend({
     padding: .4rem .8rem
 
   &__placeholder
+    position: relative
+    overflow: hidden
+
+    &:not(h3)
+      &::before
+        content: ''
+        display: block
+        position: absolute
+        top: calc(50% - 1px)
+        width: calc(100% - 1.4rem)
+        height: 2px
+        background-color: rgb(var(--color-primary))
+        transform: translateX(calc(-100% - 1.4rem))
+        transition: transform .1s ease-in
+    &--completed:not(h3)::before
+      transform: translateX(0)
+
     &:hover
       cursor: text
+
   &__placeholder:hover,
   &__field
     background-color: rgba(var(--color-primary), .05)

@@ -43,8 +43,8 @@ export default Vue.extend({
     this.$events.$on(`completeTasks-${this.cardId}`, (progress: number) => {
       const completeTasks = Math.round((progress * this.length) / 100)
       this.tasks.forEach((task: ITask<string>, index: number) => {
-        if (index < completeTasks && !task.completed) this.completeTask(this.tasks[index].id)
-        if (index > completeTasks && task.completed) this.unCompleteTask(this.tasks[index].id)
+        if (index <= completeTasks && !task.completed) this.completeTask(this.tasks[index].id)
+        if (index >= completeTasks && task.completed) this.unCompleteTask(this.tasks[index].id)
       })
     })
   },
@@ -64,7 +64,10 @@ export default Vue.extend({
     },
 
     async createTask() {
-      const newTask = await this.createTaskInStore({ cardId: this.cardId, taskInput: { title: 'New Task' } })
+      const newTask = await this.createTaskInStore({
+        cardId: this.cardId,
+        taskInput: { title: 'New Task', completed: false },
+      })
       this.focusedTask = newTask.id
     },
   },

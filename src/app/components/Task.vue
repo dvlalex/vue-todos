@@ -37,8 +37,8 @@ export default Vue.extend({
 </script>
 
 <template lang="pug">
-  .task.flex.justify-space-between
-    c-input.task__title(:model="task.title" :focus="focused" @update:title="onUpdateTitle")
+  .task(:class="['flex', 'justify-space-between']")
+    c-input.task__title(:model="task.title" :focus="focused" :completed="task.completed" @update:title="onUpdateTitle")
     a.task__remove(@click.prevent="removeTask(task.id)" href="#remove-task" title="Remove Task")
       c-icon(:iconPath="$icons.trashcan")
 </template>
